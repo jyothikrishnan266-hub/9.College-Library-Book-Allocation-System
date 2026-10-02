@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>College Library Book Allocation</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<header>
+    <h1>📚 College Library Management</h1>
+    <p>Book Allocation, Issue & Return System</p>
+</header>
+
+<nav>
+    <button onclick="showSection('dashboard')">Dashboard</button>
+    <button onclick="showSection('students')">Students</button>
+    <button onclick="showSection('books')">Books</button>
+    <button onclick="showSection('search')">Book Search</button>
+    <button onclick="showSection('issue')">Issue / Return</button>
+    <button onclick="showSection('waiting')">Waiting List</button>
+    <button onclick="showSection('overdue')">Overdue</button>
+    <button onclick="showSection('reports')">Reports</button>
+</nav>
+
+<main>
+
+<!-- ================= DASHBOARD ================= -->
+
+<section id="dashboard" class="section active">
+
+    <h2>Library Dashboard</h2>
+
+    <div class="cards">
+
+        <div class="card">
+            <h3>Total Students</h3>
+            <p id="totalStudents">0</p>
+        </div>
+
+        <div class="card">
+            <h3>Total Books</h3>
+            <p id="totalBooks">0</p>
+        </div>
+
+        <div class="card">
+            <h3>Available Books</h3>
+            <p id="availableBooks">0</p>
+        </div>
+
+        <div class="card">
+            <h3>Issued Books</h3>
+            <p id="issuedBooks">0</p>
+        </div>
+
+        <div class="card">
+            <h3>Overdue Books</h3>
+            <p id="overdueBooks">0</p>
+        </div>
+
+        <div class="card">
+            <h3>Waiting Requests</h3>
+            <p id="waitingRequests">0</p>
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ================= STUDENT REGISTRATION ================= -->
+
+<section id="students" class="section">
+
+    <h2>👨‍🎓 Student Registration</h2>
+
+    <form id="studentForm">
+
+        <label>Student Name</label>
+        <input
+            type="text"
+            id="studentName"
+            required
+        >
+
+        <label>Student ID</label>
+        <input
+            type="text"
+            id="studentId"
+            placeholder="STU001"
+            required
+        >
+
+        <label>Department</label>
+        <select id="department">
+
+            <option>CSE</option>
+            <option>AIML</option>
+            <option>ECE</option>
+            <option>EEE</option>
+            <option>MECH</option>
+            <option>CIVIL</option>
+            <option>MBA</option>
+
+        </select>
+
+        <label>Year</label>
+        <select id="studentYear">
+
+            <option>1st Year</option>
+            <option>2nd Year</option>
+            <option>3rd Year</option>
+            <option>4th Year</option>
+
+        </select>
+
+        <label>Phone</label>
+        <input
+            type="tel"
+            id="studentPhone"
+            required
+        >
+
+        <button type="submit">
+            Register Student
+        </button>
+
+    </form>
+
+    <h3>Registered Students</h3>
+
+    <div class="table-container">
+
+        <table>
+
+            <thead>
+                <tr>
+                    <th>Student ID</th>
+                    <th>Name</th>
+                    <th>Department</th>
+                    <th>Year</th>
+                    <th>Phone</th>
+                </tr>
+            </thead>
+
+            <tbody id="studentTable"></tbody>
+
+        </table>
+
+    </div>
+
+</section>
+
+
+<!-- ================= BOOK REGISTRATION ================= -->
+
+<section id="books" class="section">
+
+    <h2>📖 Book Registration</h2>
+
+    <form id="bookForm">
+
+        <label>Book Title</label>
+
+        <input
+            type="text"
+            id="bookTitle"
+            required
+        >
+
+        <label>Author</label>
+
+        <input
+            type="text"
+            id="bookAuthor"
+            required
+        >
+
+        <label>ISBN</label>
+
+        <input
+            type="text"
+            id="bookISBN"
+            placeholder="978-0000000000"
+            required
+        >
+
+        <label>Category</label>
+
+        <select id="bookCategory">
+
+            <option>Programming</option>
+            <option>Database</option>
+            <option>Networking</option>
+            <option>Artificial Intelligence</option>
+            <option>Mathematics</option>
+            <option>Physics</option>
+            <option>Electronics</option>
+            <option>Management</option>
+            <option>Other</option>
+
+        </select>
+
+        <label>Total Copies</label>
+
+        <input
+            type="number"
+            id="bookCopies"
+            min="1"
+            required
+        >
+
+        <button type="submit">
+            Register Book
+        </button>
+
+    </form>
+
+    <h3>Book Inventory</h3>
+
+    <div class="table-container">
+
+        <table>
+
+            <thead>
+
+                <tr>
+                    <th>Title</th>
+                    <th>Author</th>
+                    <th>ISBN</th>
+                    <th>Category</th>
+                    <th>Total</th>
+                    <th>Available</th>
+                    <th>Issued</th>
+                </tr>
+
+            </thead>
+
+            <tbody id="bookTable"></tbody>
+
+        </table>
+
+    </div>
+
+</section>
+
+
+<!-- ================= BOOK SEARCH ================= -->
+
+<section id="search" class="section">
+
+    <h2>🔎 Book Search</h2>
+
+    <div class="search-box">
+
+        <input
+            type="text"
+            id="searchInput"
+            placeholder="Search by title, author, category or ISBN..."
+            oninput="searchBooks()"
+        >
+
+    </div>
+
+    <div class="table-container">
+
+        <table>
+
+            <thead>
+
+                <tr>
+                    <th>Title</th>
+                    <th>Author</th>
+                    <th>ISBN</th>
+                    <th>Category</th>
+                    <th>Availability</th>
+                </tr>
+
+            </thead>
+
+            <tbody id="searchTable"></tbody>
+
+        </table>
+
+    </div>
+
+</section>
+
+
+<!-- ================= ISSUE / RETURN ================= -->
+
+<section id="issue" class="section">
+
+    <h2>📕 Book Issue & Return</h2>
+
+    <div class="issue-grid">
+
+        <div class="panel">
+
+            <h3>Issue Book</h3>
+
+            <label>Student</label>
+
+            <select id="issueStudent"></select>
+
+            <label>Book</label>
+
+            <select id="issueBook"></select>
+
+            <button onclick="issueBook()">
+                Issue Book
+            </button>
+
+        </div>
+
+
+        <div class="panel">
+
+            <h3>Return Book</h3>
+
+            <label>Issued Book</label>
+
+            <select id="returnBook"></select>
+
+            <button onclick="returnBook()">
+                Return Book
+            </button>
+
+        </div>
+
+    </div>
+
+    <h3>Issued Books</h3>
+
+    <div class="table-container">
+
+        <table>
+
+            <thead>
+
+                <tr>
+                    <th>Student</th>
+                    <th>Book</th>
+                    <th>Issue Date</th>
+                    <th>Due Date</th>
+                    <th>Status</th>
+                    <th>Fine</th>
+                </tr>
+
+            </thead>
+
+            <tbody id="issuedTable"></tbody>
+
+        </table>
+
+    </div>
+
+</section>
+
+
+<!-- ================= WAITING LIST ================= -->
+
+<section id="waiting" class="section">
+
+    <h2>⏳ Waiting List</h2>
+
+    <div class="panel">
+
+        <label>Student</label>
+
+        <select id="waitStudent"></select>
+
+        <label>Book</label>
+
+        <select id="waitBook"></select>
+
+        <button onclick="addWaitingRequest()">
+            Add to Waiting List
+        </button>
+
+    </div>
+
+    <div class="table-container">
+
+        <table>
+
+            <thead>
+
+                <tr>
+                    <th>Position</th>
+                    <th>Student</th>
+                    <th>Book</th>
+                    <th>Requested Date</th>
+                    <th>Status</th>
+                </tr>
+
+            </thead>
+
+            <tbody id="waitingTable"></tbody>
+
+        </table>
+
+    </div>
+
+</section>
+
+
+<!-- ================= OVERDUE ================= -->
+
+<section id="overdue" class="section">
+
+    <h2>⚠️ Overdue Tracking</h2>
+
+    <div class="table-container">
+
+        <table>
+
+            <thead>
+
+                <tr>
+                    <th>Student</th>
+                    <th>Book</th>
+                    <th>Due Date</th>
+                    <th>Days Overdue</th>
+                    <th>Fine</th>
+                </tr>
+
+            </thead>
+
+            <tbody id="overdueTable"></tbody>
+
+        </table>
+
+    </div>
+
+</section>
+
+
+<!-- ================= REPORTS ================= -->
+
+<section id="reports" class="section">
+
+    <h2>📊 Library Reports</h2>
+
+    <div class="report-grid">
+
+        <div class="report-card">
+            <h3>Total Issues</h3>
+            <p id="totalIssues">0</p>
+        </div>
+
+        <div class="report-card">
+            <h3>Total Returns</h3>
+            <p id="totalReturns">0</p>
+        </div>
+
+        <div class="report-card">
+            <h3>Total Fine</h3>
+            <p id="totalFine">₹0</p>
+        </div>
+
+        <div class="report-card">
+            <h3>Popular Book</h3>
+            <p id="popularBook">None</p>
+        </div>
+
+    </div>
+
+    <h3>📈 Popular Books</h3>
+
+    <div class="table-container">
+
+        <table>
+
+            <thead>
+
+                <tr>
+                    <th>Rank</th>
+                    <th>Book</th>
+                    <th>Issue Count</th>
+                </tr>
+
+            </thead>
+
+            <tbody id="popularTable"></tbody>
+
+        </table>
+
+    </div>
+
+    <br>
+
+    <button onclick="printReport()">
+        Print Report
+    </button>
+
+    <button class="danger" onclick="clearAllData()">
+        Clear All Data
+    </button>
+
+</section>
+
+</main>
+
+<script src="script.js"></script>
+
+</body>
+</html>
